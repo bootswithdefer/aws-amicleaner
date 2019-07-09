@@ -1,14 +1,14 @@
 FROM python:3.6
 
-RUN apt-get update && apt-get install -y \
-  vim \
-  awscli \
-  twine \
-  jq
+MAINTAINER Jesse DeFer <aws-amicleaner@dotd.com>
 
-ENV PATH="${PATH}:/root/.local/bin/"
+RUN apt-get update \
+    && apt-get install -y python-pip \
+    && pip install aws-amicleaner \
+    && amicleaner -v
 
-WORKDIR /aws-amicleaner
-ADD . .
-RUN python setup.py install
-CMD bash
+RUN addgroup --gid 1000 jenkins \ 
+    && adduser --ingroup jenkins --uid 1000 --disabled-password --gecos '' jenkins
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["aws-amicleaner"]
