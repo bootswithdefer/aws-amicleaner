@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3
 
 MAINTAINER Jesse DeFer <aws-amicleaner@dotd.com>
 
